@@ -1,19 +1,40 @@
 # Virtual Environment
 .venv/
 
-# Python cache
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+
+# Distribution
+build/
+dist/
+*.egg-info/
 
 # Logs
 logs/
 *.log
 
-# Environment variables
+# Environment
 .env
 
-# VS Code
+# IDE
 .vscode/
+.idea/
 
-# macOS
+# OS
 .DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Models (we'll download them locally)
+models/
+
+# Database (optional)
+database/*.db
