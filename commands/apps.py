@@ -9,6 +9,7 @@ APPLICATIONS = {
     "calculator": "calc.exe",
     "file explorer": "explorer.exe",
     "explorer": "explorer.exe",
+    "vs code": "code",
 }
 
 

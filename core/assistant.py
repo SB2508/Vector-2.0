@@ -63,11 +63,7 @@ class Assistant:
 
     def _register_commands(self) -> None:
         """Register all built-in Vector commands."""
-        self.router.register(
-            name="lock_computer",
-            handler=lock_computer,
-            description="Lock the computer",
-        )
+
         self.router.register(
             name="open_youtube",
             handler=open_youtube,
@@ -246,6 +242,11 @@ class Assistant:
             name="launch_explorer",
             handler=lambda: launch_application("file explorer"),
             description="Open File Explorer",
+        )
+        self.router.register(
+            name="lock_computer",
+            handler=lock_computer,
+            description="Lock the computer",
         )
 
     def process_input(self, user_input: str) -> str:

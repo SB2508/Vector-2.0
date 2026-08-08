@@ -170,6 +170,14 @@ class IntentDetector:
                 "what wifi is connected",
                 "show wifi",
             ],
+            "launch_vscode": [
+                "open vs code",
+                "open visual studio code",
+                "launch vs code",
+                "launch visual studio code",
+                "start vs code",
+                "lets code",
+            ],
             "check_internet": [
                 "internet status",
                 "check internet",
