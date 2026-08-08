@@ -3,6 +3,7 @@ Entry point for Vector.
 """
 
 # Import initializes the logging configuration.
+
 from core.assistant import Assistant
 
 
