@@ -7,6 +7,8 @@ from loguru import logger
 from commands.browser import open_youtube
 from commands.system import show_time
 from config.settings import config
+from core.brain import LocalBrain
+from core.intent import IntentDetector
 from core.router import CommandRouter
 
 
@@ -15,7 +17,8 @@ class Assistant:
 
     def __init__(self):
         self.router = CommandRouter()
-
+        self.intent_detector = IntentDetector()
+        self.brain = LocalBrain()
         self._register_commands()
 
         logger.info(f"{config.name} {config.version} initialized.")
@@ -33,6 +36,18 @@ class Assistant:
             handler=show_time,
             description="Show the current time",
         )
+
+    def process_input(self, user_input: str) -> str:
+        """Process a user's text input."""
+
+        intent = self.intent_detector.detect(user_input)
+
+        if intent is None:
+            return self.brain.think(user_input)
+
+        result = self.router.execute(intent)
+
+        return result
 
     def start(self) -> None:
         """Start Vector."""
