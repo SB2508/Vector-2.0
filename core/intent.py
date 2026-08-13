@@ -208,6 +208,18 @@ class IntentDetector:
                 "lock pc",
                 "lock my pc",
             ],
+            "remember": [
+                "remember this",
+                "remember that",
+                "remember something",
+            ],
+
+            "show_memories": [
+                "what do you remember",
+                "show my memories",
+                "what do you know about me",
+                "show memories",
+            ],
         }
 
     def detect(self, text: str) -> str | None:

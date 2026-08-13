@@ -3,8 +3,9 @@ Main Vector assistant.
 """
 
 from loguru import logger
-
+from commands.power import lock_computer
 from commands.apps import launch_application
+from core.memory import Memory
 from commands.audio import (
     get_volume,
     toggle_mute,
@@ -58,12 +59,12 @@ class Assistant:
         self.intent_detector = IntentDetector()
         self.brain = LocalBrain()
         self._register_commands()
-
+        self.memory = Memory()
         logger.info(f"{config.name} {config.version} initialized.")
 
     def _register_commands(self) -> None:
         """Register all built-in Vector commands."""
-
+       
         self.router.register(
             name="open_youtube",
             handler=open_youtube,
@@ -99,7 +100,11 @@ class Assistant:
             handler=open_whatsapp,
             description="Open WhatsApp Web",
         )
-
+        self.router.register(
+            name="launch_vscode",
+            handler=lambda: launch_application("vs code"),
+            description="Open Visual Studio Code",
+        )
         self.router.register(
             name="open_chatgpt",
             handler=open_chatgpt,
@@ -245,8 +250,21 @@ class Assistant:
         )
         self.router.register(
             name="lock_computer",
-            handler=lock_computer,
+            handler=lock_computer,       
             description="Lock the computer",
+        )
+        self.router.register(
+            name="remember",
+            handler=lambda: self.remember(
+                "Vector memory test"
+            ),
+            description="Store something in memory",
+        )
+
+        self.router.register(
+            name="show_memories",
+            handler=self.show_memories,
+            description="Show stored memories",
         )
 
     def process_input(self, user_input: str) -> str:
@@ -277,3 +295,28 @@ class Assistant:
 
         for command in self.router.list_commands():
             print(f"  - {command}")
+    def remember(self, text: str) -> str:
+        """Store something in Vector's memory."""
+
+        if not text.strip():
+            return "What would you like me to remember?"
+
+        self.memory.remember(text.strip())
+
+        return "I'll remember that."
+
+
+    def show_memories(self) -> str:
+        """Return Vector's stored memories."""
+
+        memories = self.memory.get_all()
+
+        if not memories:
+            return "I don't have any memories yet."
+
+        lines = [
+            f"{index}. {memory['text']}"
+            for index, memory in enumerate(memories, start=1)
+        ]
+
+        return "Here's what I remember:\n" + "\n".join(lines)
