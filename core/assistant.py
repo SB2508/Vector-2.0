@@ -266,6 +266,11 @@ class Assistant:
             handler=self.show_memories,
             description="Show stored memories",
         )
+        self.router.register(
+            name="search_memory",
+            handler=lambda: self.search_memory("python"),
+            description="Search Vector's memory",
+        )
 
     def process_input(self, user_input: str) -> str:
         """Process a user's text input."""
