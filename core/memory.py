@@ -61,10 +61,35 @@ class Memory:
         """Return all stored memories."""
 
         return self._load()
+    def search(self, query: str) -> list[str]:
+        """Find memories containing words from the query."""
 
+        query_words = set(
+            query.lower().split()
+        )
+
+        memories = self._load()
+
+        matches = []
+
+        for memory in memories:
+            text = memory.get("text", "")
+            text_words = set(text.lower().split())
+
+            if query_words & text_words:
+                matches.append(text)
+
+        return matches
     def clear(self):
         """Delete all stored memories."""
 
         self._save([])
+if __name__ == "__main__":
+    memory = Memory()
 
+    print("All memories:")
+    print(memory.get_all())
+
+    print("\nSearch results:")
+    print(memory.search("Python"))
 

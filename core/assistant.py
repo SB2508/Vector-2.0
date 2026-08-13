@@ -270,6 +270,26 @@ class Assistant:
     def process_input(self, user_input: str) -> str:
         """Process a user's text input."""
 
+        user_input = user_input.strip()
+
+        # Memory detection
+        memory_prefixes = [
+            "remember that ",
+            "remember ",
+        ]
+
+        for prefix in memory_prefixes:
+            if user_input.lower().startswith(prefix):
+                memory_text = user_input[len(prefix):].strip()
+
+                if not memory_text:
+                    return "What would you like me to remember?"
+
+                self.memory.remember(memory_text)
+
+                return "I'll remember that."
+
+        # Normal Vector processing
         intent = self.intent_detector.detect(user_input)
 
         if intent is None:
@@ -278,7 +298,15 @@ class Assistant:
         result = self.router.execute(intent)
 
         return result
+    def search_memory(self, query: str) -> str:
+        """Search Vector's stored memories."""
 
+        matches = self.memory.search(query)
+
+        if not matches:
+            return "I don't remember anything about that."
+
+        return "I remember: " + " | ".join(matches)
     def start(self) -> None:
         """Start Vector."""
 
